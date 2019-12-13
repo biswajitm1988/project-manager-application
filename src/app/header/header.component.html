@@ -1,0 +1,16 @@
+<nav class="navbar navbar-expand-md navbar-dark fixed-top bg-dark">
+    <a class="navbar-brand" [routerLink]="['/']">Task Manager</a>
+    <button class="navbar-toggler d-lg-none" type="button" (click)="collapsed = !collapsed" aria-controls="navbarsDefault" aria-label="Toggle navigation">
+        <span class="navbar-toggler-icon"></span>
+    </button>
+    <div class="collapse navbar-collapse" id="navbarsDefault"  [class.collapse]="collapsed" (window:resize)="collapsed = true">
+        <ul class="navbar-nav mr-auto">
+            <li class="nav-item" [routerLinkActive]="['active']">
+                <a class="nav-link" (click)="collapsed = !collapsed" [routerLink]="['/addTask', '']">Add Task</a>
+            </li>
+            <li class="nav-item" [routerLinkActive]="['active']">
+                <a class="nav-link" (click)="collapsed = !collapsed" [routerLink]="['/viewTasks']">View Task</a>
+            </li>
+        </ul>
+    </div>
+</nav>

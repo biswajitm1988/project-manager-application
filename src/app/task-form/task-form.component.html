@@ -1,0 +1,47 @@
+<p *ngIf="errMsg!=null" style="color:red">
+    {{errMsg}}
+</p>
+<section *ngIf="errMsg==null" class="container" style="width: 100%">
+    <h3>{{isNew?"Add":"Edit"}} Task</h3>
+    <form ngNativeValidate #form>
+        <div class="form-group">
+            <label>Task</label>
+            <input type="text" id ="taskSummary" name="taskSummary" [(ngModel)]="task.taskSummary" class="form-control"
+                placeholder="Enter Task Summary" required />
+        </div>
+        <div class="form-group">
+            <label>Priority</label>
+            <div class="d-flex">
+                <span class="font-weight-bold blue-text mr-4">0</span>
+                <div class="w-100">
+                    <mat-slider class="w-100" thumbLabel min="0" max="30" step="1" name="priority"
+                        [(ngModel)]="task.priority"></mat-slider>
+                </div>
+                <span class="font-weight-bold blue-text ml-4">30</span>
+            </div>
+        </div>
+        <div class="form-group">
+            <label>Parent Task</label>
+            <input type="text" name="parentTask" [(ngModel)]="task.parentTask.parentTaskSummary" class="form-control"
+                placeholder="Enter Parent Task" />
+        </div>
+        <div class="form-group col">
+            <mat-form-field class="mr-4">
+                <input matInput [matDatepicker]="startDate" [min]="minStartDate" name="startDate"
+                    [(ngModel)]="task.startDate" placeholder="Start Date" disabled required>
+                <mat-datepicker-toggle matSuffix [for]="startDate"></mat-datepicker-toggle>
+                <mat-datepicker #startDate [startAt]="minStartDate" disabled="false"></mat-datepicker>
+            </mat-form-field>
+            <mat-form-field>
+                <input matInput [matDatepicker]="endDate" name="endDate" [min]="task.startDate"
+                    [(ngModel)]="task.endDate" placeholder="End Date" disabled>
+                <mat-datepicker-toggle matSuffix [for]="endDate"></mat-datepicker-toggle>
+                <mat-datepicker #endDate disabled="false"></mat-datepicker>
+            </mat-form-field>
+        </div>
+        <div class="btn-group">
+            <button type="submit" class="btn btn-primary mr-1"  (click)="form.checkValidity()? saveTask() : null">{{isNew?"Add":"Update"}}</button>
+            <button type="reset" class="btn btn-secondary">Reset</button>
+        </div>
+    </form>
+</section>

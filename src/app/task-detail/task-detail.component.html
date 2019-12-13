@@ -1,0 +1,35 @@
+<table class="table" style="table-layout:fixed">
+        <tbody>
+            <tr>
+                <td>
+                    <div class="card">
+                        <div class="card-body">
+                            <p class="card-text">
+                                {{task.taskSummary}}
+                            </p>
+                        </div>
+                    </div>
+                </td>
+                <td>
+                    <div class="card">
+                        <div class="card-body">
+                            <p class="card-text">
+                                {{task.parentTask.parentTaskSummary}}
+                            </p>
+                        </div>
+                    </div>
+                </td>
+                <td>{{task.priority}}</td>
+                <td>{{task.startDate | date:"MM/dd/yy"}}</td>
+                <td>{{task.endDate | date:"MM/dd/yy"}}</td>
+                <td colspan="2">
+                    <div class="btn-group">
+                        <button class="btn btn-primary mr-1" (click)="editTask(task)"
+                            [disabled]="!isTaskEditable(task)">Edit</button>
+                        <button type="reset" class="btn btn-danger" (click)="endTask(task)"
+                            [disabled]="!isTaskEligibleToEnd(task)">End Task</button>
+                    </div>
+                </td>
+            </tr>
+        </tbody>
+    </table>
