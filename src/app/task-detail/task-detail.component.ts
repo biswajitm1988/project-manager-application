@@ -8,7 +8,7 @@ import { LogService } from '../service/log.service';
 @Component({
   selector: 'app-task-detail',
   templateUrl: './task-detail.component.html',
-  styleUrls: ['./task-detail.component.scss']
+  styleUrls: ['./task-detail.component.css']
 })
 export class TaskDetailComponent implements OnInit {
   @Input() task: Task;

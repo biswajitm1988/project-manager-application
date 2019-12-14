@@ -9,7 +9,7 @@ import { ParentTask } from '../model/parent-task';
 @Component({
   selector: 'app-view-task',
   templateUrl: './view-task.component.html',
-  styleUrls: ['./view-task.component.scss'],
+  styleUrls: ['./view-task.component.css'],
   providers: [FilterPipe]
 })
 export class ViewTaskComponent implements OnInit {
