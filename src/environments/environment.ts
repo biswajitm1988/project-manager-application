@@ -4,8 +4,9 @@
 
 export const environment = {
   production: false,
-  REMOTE_SERVICE_HOST:  "http://localhost",
-  REMOTE_SERVICE_PORT: "10010",
+  USER_MANAGER_SERVER_URL: 'http://localhost:10010',
+  PROJECT_MANAGER_SERVER_URL: 'http://localhost:10011',
+  TASK_MANAGER_SERVER_URL: 'http://localhost:10012',
   isDebugMode: true
 };
 

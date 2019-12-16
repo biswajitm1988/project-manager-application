@@ -28,10 +28,10 @@ export class TaskDetailComponent implements OnInit {
       return false;
     }
     if (moment(task.startDate).isBefore(this.today, 'day')
-              && (task.endDate !== 'undefined' && task.endDate != null && moment(task.endDate).isSameOrBefore(this.today, 'day'))) {
+      && (task.endDate !== 'undefined' && task.endDate != null && moment(task.endDate).isSameOrBefore(this.today, 'day'))) {
       return false;
     } else if (moment(task.startDate).isSameOrAfter(this.today, 'day')
-              || (task.endDate == null || moment(task.endDate).isAfter(this.today, 'day'))) {
+      || (task.endDate == null || moment(task.endDate).isAfter(this.today, 'day'))) {
       return true;
     }
     return false;
@@ -42,10 +42,10 @@ export class TaskDetailComponent implements OnInit {
       return false;
     }
     if (moment(task.startDate).isBefore(this.today, 'day')
-            && (task.endDate !== 'undefined' && task.endDate != null && moment(task.endDate).isBefore(this.today, 'day'))) {
+      && (task.endDate !== 'undefined' && task.endDate != null && moment(task.endDate).isBefore(this.today, 'day'))) {
       return false;
     } else if (moment(task.startDate).isAfter(this.today, 'day')
-              && (task.endDate == null || moment(task.endDate).isAfter(this.today, 'day'))) {
+      && (task.endDate == null || moment(task.endDate).isAfter(this.today, 'day'))) {
       return false;
     }
     return true;

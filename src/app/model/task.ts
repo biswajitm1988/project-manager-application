@@ -1,7 +1,7 @@
 import { ParentTask } from './parent-task';
 
 export class Task {
-    public taskId: string;
+    public taskId: number;
     public taskSummary: string;
     public parentTask: ParentTask;
     public priority: number;

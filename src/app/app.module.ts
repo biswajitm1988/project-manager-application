@@ -18,11 +18,18 @@ import { FilterPipe } from './pipe/filter.pipe';
 import { TaskManagerService } from './service/task-manager.service';
 import { LogService } from './service/log.service';
 import { TaskDetailComponent } from './task-detail/task-detail.component';
+import { AddUserComponent } from './add-user/add-user.component';
+import { AddProjectComponent } from './add-project/add-project.component';
+import { UserDetailsComponent } from './user-details/user-details.component';
+import { ProjectDetailsComponent } from './project-details/project-details.component';
+import { UserSearchPipe } from './pipe/user-search.pipe';
 
 const pathMappings: Routes = [
   {path: '', component: TaskFormComponent },
   { path: 'addTask/:id', component: TaskFormComponent },
-  { path: 'viewTasks', component: ViewTaskComponent }
+  { path: 'viewTasks', component: ViewTaskComponent },
+  { path: 'addUser', component: AddUserComponent },
+  { path: 'addProject', component: AddProjectComponent }
 ];
 
 @NgModule({
@@ -33,7 +40,12 @@ const pathMappings: Routes = [
     FooterComponent,
     TaskFormComponent,
     FilterPipe,
-    TaskDetailComponent
+    TaskDetailComponent,
+    AddUserComponent,
+    AddProjectComponent,
+    UserDetailsComponent,
+    ProjectDetailsComponent,
+    UserSearchPipe
   ],
   imports: [
     BrowserModule,

@@ -14,7 +14,7 @@ export class TaskManagerService {
 
   task: Task;
   tasks: Task[];
-  serviceURL: string = environment.REMOTE_SERVICE_HOST + ':' + environment.REMOTE_SERVICE_PORT; ;
+  serviceURL: string = environment.TASK_MANAGER_SERVER_URL;
 
   constructor(private log: LogService, private http: HttpClient) {
     this.getAllTasksFromService().subscribe((tasks) => {
@@ -32,20 +32,20 @@ export class TaskManagerService {
     this.log.info('[TaskManagerService.addTask] URL >> ', this.serviceURL + '/task/manager/addTask' + '  Task ', task);
     return this.http.post(this.serviceURL + '/task/manager/addTask', task)
       .pipe(map(result => {
-        const task =  result as Task;
-        task.startDate = new Date(task.startDate);
-        task.endDate = task.endDate != null ? new Date(task.endDate) : task.endDate;
-        return task;
+        const tempTask =  result as Task;
+        tempTask.startDate = new Date(tempTask.startDate);
+        tempTask.endDate = tempTask.endDate != null ? new Date(tempTask.endDate) : tempTask.endDate;
+        return tempTask;
       }));
   }
 
   editTask(task: Task): Observable<Task> {
     this.log.info('[TaskManagerService.editTask] URL >> ', this.serviceURL + '/task/manager/updateTask' + '  Task ', task);
     return this.http.put(this.serviceURL + '/task/manager/updateTask', task).pipe(map(result => {
-      const task =  result as Task;
-      task.startDate = new Date(task.startDate);
-      task.endDate = task.endDate != null ? new Date(task.endDate) : task.endDate;
-      return task;
+      const tempTask =  result as Task;
+      tempTask.startDate = new Date(tempTask.startDate);
+      tempTask.endDate = tempTask.endDate != null ? new Date(tempTask.endDate) : tempTask.endDate;
+      return tempTask;
     }));
   }
 

@@ -1,0 +1,15 @@
+<table class="table" style="table-layout:fixed">
+    <tbody>
+        <tr>
+            <td>{{user.firstName}}</td>
+            <td>{{user.lastName}}</td>
+            <td>{{user.employeeId}}</td>
+            <td colspan="2">
+                <div class="btn-group">
+                    <button class="btn btn-primary mr-1" (click)="editUser(user)">Edit</button>
+                    <button type="reset" class="btn btn-danger" (click)="deleteUser(user)">Delete</button>
+                </div>
+            </td>
+        </tr>
+    </tbody>
+</table>
