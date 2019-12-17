@@ -18,7 +18,7 @@
                 <div>
                     <label>Parent Task </label>
                 </div>
-                <div> <input class="form-control" name="parentTaskSearchKey" [(ngModel)]="searchTask.parentTask"placeholder="Search By Parent Task">
+                <div> <input class="form-control" name="parentTaskSearchKey" [(ngModel)]="searchTask.parentTask" placeholder="Search By Parent Task">
                 </div>
             </div>
         </div>
@@ -43,8 +43,7 @@
         <div class="form-row">
             <div class="col">
                 <mat-form-field>
-                    <input matInput [matDatepicker]="startDateDP" name="startDateInput" [(ngModel)]="searchTask.startDate"
-                        placeholder="Start Date">
+                    <input matInput [matDatepicker]="startDateDP" name="startDateInput" [(ngModel)]="searchTask.startDate" placeholder="Start Date">
                     <mat-datepicker-toggle matSuffix [for]="startDateDP"></mat-datepicker-toggle>
                     <mat-datepicker #startDateDP></mat-datepicker>
                 </mat-form-field>
@@ -53,16 +52,21 @@
             </div>
             <div class="col">
                 <mat-form-field>
-                    <input matInput [matDatepicker]="endDateDP" name="endDateInput" [(ngModel)]="searchTask.endDate"
-                        placeholder="End Date">
+                    <input matInput [matDatepicker]="endDateDP" name="endDateInput" [(ngModel)]="searchTask.endDate" placeholder="End Date">
                     <mat-datepicker-toggle matSuffix [for]="endDateDP"></mat-datepicker-toggle>
                     <mat-datepicker #endDateDP></mat-datepicker>
                 </mat-form-field>
+                <button type="reset" class="btn btn-secondary pull-right">Reset</button>
+
             </div>
-            <div class="col"> 
+            <div class="col">
             </div>
         </div>
-        <button type="reset" class="btn btn-secondary pull-right">Reset</button>
+
+        <div class="form-row">
+            <div class="col">
+            </div>
+        </div>
     </form>
     <hr>
     <table class="table" style="table-layout:fixed">
@@ -77,6 +81,6 @@
             </tr>
         </thead>
     </table>
-    <app-task-detail (taskAdded) = "getAllTasks()" (taskUpdated) = "getAllTasks()" *ngFor="let task of tasks | filter:'taskSummary':searchTask.taskSummary | filter: 'parentTaskSummary':searchTask.parentTask | filter: 'priorityGt':searchTask.priorityGt | filter: 'priorityLt':searchTask.priorityLt| filter: 'startDateInput':searchTask.startDate | filter: 'endDateInput':searchTask.endDate"
+    <app-task-detail (taskAdded)="getAllTasks()" (taskUpdated)="getAllTasks()" *ngFor="let task of tasks | filter:'taskSummary':searchTask.taskSummary | filter: 'parentTaskSummary':searchTask.parentTask | filter: 'priorityGt':searchTask.priorityGt | filter: 'priorityLt':searchTask.priorityLt| filter: 'startDateInput':searchTask.startDate | filter: 'endDateInput':searchTask.endDate"
         [task]="task"></app-task-detail>
 </section>

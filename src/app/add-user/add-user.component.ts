@@ -4,7 +4,7 @@ import { LogService } from '../service/log.service';
 import { UserManagerService } from '../service/user-manager.service';
 import { ActivatedRoute, Router } from '@angular/router';
 import { UserSearchPipe } from '../pipe/user-search.pipe';
-import { Subscription, Observable, of, timer } from 'rxjs';
+import { Subscription, Observable, timer } from 'rxjs';
 import { Messages } from '../const/messages';
 
 @Component({
@@ -14,17 +14,17 @@ import { Messages } from '../const/messages';
   providers: [UserSearchPipe]
 })
 export class AddUserComponent implements OnInit {
-  isNew: boolean;
   user: User = new User();
-  searchText: string;
   users: User[];
+  showModal: boolean;
+  isNew: boolean;
+  searchText: string;
   message: string;
   showMessage: boolean;
   messages = new Messages();
   private subscription: Subscription;
   private timer: Observable<any>;
   isError: boolean;
-  showModal: boolean;
 
   constructor(private log: LogService,
               private userManagerService: UserManagerService,
@@ -68,7 +68,7 @@ export class AddUserComponent implements OnInit {
   getAllUsers() {
     this.userManagerService.getAllUsersFromService().subscribe((users) => {
       this.users = users;
-      this.log.info('[ViewUserComponent.getAllUsers] View On Init. Users', this.users);
+      this.log.info('[AddUserComponent.getAllUsers] View On Init. Users', this.users);
     });
   }
 
@@ -93,7 +93,7 @@ export class AddUserComponent implements OnInit {
   }
 
   deleteUser(user: User) {
-    this.log.info('[UserFormComponent.deleteUser] delete >> ', this.user);
+    this.log.info('[AddUserComponent.deleteUser] delete >> ', this.user);
     this.userManagerService.deleteUser(user).subscribe((res) => {
       if (res.status === 200) {
         console.log(res);

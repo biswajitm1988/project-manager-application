@@ -24,6 +24,10 @@ import { UserDetailsComponent } from './user-details/user-details.component';
 import { ProjectDetailsComponent } from './project-details/project-details.component';
 import { UserSearchPipe } from './pipe/user-search.pipe';
 import { ConfirmModalComponent } from './confirm-modal/confirm-modal.component';
+import { FormatUserNamePipe } from './pipe/format-user-name.pipe';
+import { UserListModalComponent } from './user-list-modal/user-list-modal.component';
+import { UserManagerService } from './service/user-manager.service';
+import { ProjectManagerService } from './service/project-manager.service';
 
 const pathMappings: Routes = [
   {path: '', component: TaskFormComponent },
@@ -47,7 +51,9 @@ const pathMappings: Routes = [
     UserDetailsComponent,
     ProjectDetailsComponent,
     UserSearchPipe,
-    ConfirmModalComponent
+    ConfirmModalComponent,
+    FormatUserNamePipe,
+    UserListModalComponent
   ],
   imports: [
     BrowserModule,
@@ -61,8 +67,8 @@ const pathMappings: Routes = [
     MatSliderModule,
     HttpClientModule
   ],
-  providers: [TaskManagerService, LogService, NgbActiveModal],
+  providers: [TaskManagerService, LogService, NgbActiveModal, UserManagerService, ProjectManagerService],
   bootstrap: [AppComponent],
-  entryComponents: [ConfirmModalComponent]
+  entryComponents: [ConfirmModalComponent, UserListModalComponent]
 })
 export class AppModule { }

@@ -18,7 +18,7 @@
             <input type="text" id="employeeId" name="employeeId" [(ngModel)]="user.employeeId" class="form-control" placeholder="Enter Employee Id" required />
         </div>
         <div class="btn-group">
-            <button type="button" class="btn btn-primary mr-1" (click)="form.checkValidity()? saveUser() : null">{{isNew?"Add":"Update"}}</button>
+            <button type="submit" class="btn btn-primary mr-1" (click)="form.checkValidity()? saveUser() : null">{{isNew?"Add":"Update"}}</button>
             <button type="reset" class="btn btn-secondary">Reset</button>
         </div>
     </form>
@@ -29,13 +29,13 @@
         </div>
         <div class="col btn-group">
             <button type="button" (click)="sortUsers('firstName')" class="btn btn-light btn-sm">
-                <span class="glyphicon glyphicon-sort-by-alphabet"></span>First Name
+                First Name <i class="fas fa-angle-double-down"></i>
             </button>
             <button type="button" (click)="sortUsers('lastName')" class="btn btn-light btn-sm">
-                <span class="glyphicon glyphicon-sort-by-alphabet"></span>Last Name
+                Last Name <i class="fas fa-angle-double-down"></i>
             </button>
             <button type="button" (click)="sortUsers('employeeId')" class="btn btn-light btn-sm">
-                <span class="glyphicon glyphicon-sort-by-order"></span>Employee Id
+               Employee Id <i class="fas fa-angle-double-down"></i>
             </button>
         </div>
 
