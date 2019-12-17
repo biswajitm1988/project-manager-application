@@ -2,7 +2,8 @@ import { Component, OnInit, Input, Output, EventEmitter } from '@angular/core';
 import { User } from '../model/user';
 import { LogService } from '../service/log.service';
 import { Router } from '@angular/router';
-import { UserManagerService } from '../service/user-manager.service';
+import { NgbModal, NgbActiveModal } from '@ng-bootstrap/ng-bootstrap';
+import { ConfirmModalComponent } from '../confirm-modal/confirm-modal.component';
 
 @Component({
   selector: 'app-user-details',
@@ -11,8 +12,10 @@ import { UserManagerService } from '../service/user-manager.service';
 })
 export class UserDetailsComponent implements OnInit {
   @Input() user: User;
+  tempUser: User;
   @Output() public editUserData = new EventEmitter<User>();
-  constructor(private log: LogService, private userManagerService: UserManagerService, private router: Router) {
+  @Output() delete = new EventEmitter<User>();
+  constructor(private log: LogService, private modalService: NgbModal, private router: Router) {
   }
 
   ngOnInit() {
@@ -20,11 +23,14 @@ export class UserDetailsComponent implements OnInit {
 
   editUser(user: User) {
     this.log.info('[ViewUserComponent.editUser] Sending Data ' + user);
-    this.editUserData.emit(user);
+    this.tempUser = { ...user };
+    this.editUserData.emit(this.tempUser);
   }
 
-  deleteUser(user: User) {
-    this.log.info('[ViewUserComponent.editUser] Sending Data ' + user);
+  openDeleteConfirmModal(user: User) {
+    this.modalService.open(ConfirmModalComponent).result.then(() => {
+      this.delete.emit(user);
+    }, (reason) => {
+    });
   }
-
 }

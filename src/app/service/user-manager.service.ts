@@ -33,7 +33,7 @@ export class UserManagerService {
 
   editUser(user: User): Observable<any> {
     this.log.info('[UserManagerService.editUser] URL >> ', this.serviceURL + '/user/manager/updateUser' + '  User ', user);
-    return this.http.put<any>(this.serviceURL + '/user/manager/updateUser', user, { observe: 'response' });
+    return this.http.put<User>(this.serviceURL + '/user/manager/updateUser', user, { observe: 'response' });
   }
 
   getAllUsersFromService(): Observable<any> {
@@ -44,5 +44,10 @@ export class UserManagerService {
   getUserByIdFromService(id: string): Observable<any> {
     this.log.info('[UserManagerService.getDataFromService] URL >> ', this.serviceURL + '/user/manager/getUserById/' + id);
     return this.http.get<User>(this.serviceURL + '/user/manager/getUserById/' + id, { observe: 'response' });
+  }
+
+  deleteUser(user: User): Observable<any> {
+    this.log.info('[UserManagerService.deleteUser] URL >> ', this.serviceURL + '/user/manager/deleteUser/' + user.userId, user);
+    return this.http.delete<User>(this.serviceURL + '/user/manager/deleteUser/' + user.userId, { observe: 'response' });
   }
 }

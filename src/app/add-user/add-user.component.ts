@@ -4,7 +4,8 @@ import { LogService } from '../service/log.service';
 import { UserManagerService } from '../service/user-manager.service';
 import { ActivatedRoute, Router } from '@angular/router';
 import { UserSearchPipe } from '../pipe/user-search.pipe';
-import { Subscription, Observable, of, timer  } from 'rxjs';
+import { Subscription, Observable, of, timer } from 'rxjs';
+import { Messages } from '../const/messages';
 
 @Component({
   selector: 'app-add-user',
@@ -18,12 +19,12 @@ export class AddUserComponent implements OnInit {
   searchText: string;
   users: User[];
   message: string;
-  successMessgae = 'User Details Saved Successfully';
-  errorMessage = 'There was a problem in saving user details';
   showMessage: boolean;
+  messages = new Messages();
   private subscription: Subscription;
   private timer: Observable<any>;
   isError: boolean;
+  showModal: boolean;
 
   constructor(private log: LogService,
               private userManagerService: UserManagerService,
@@ -41,23 +42,23 @@ export class AddUserComponent implements OnInit {
       this.userManagerService.addUser(this.user).subscribe((res) => {
         if (res.status === 200) {
           console.log(res);
-          this.showAlertMessage(this.successMessgae, false);
+          this.showAlertMessage(this.messages.addUsersuccessMessgae, false);
           this.getAllUsers();
         }
       }
         , (err) => {
-          this.showAlertMessage(this.errorMessage, true);
+          this.showAlertMessage(this.messages.errorMessage, true);
         });
     } else {
       this.userManagerService.editUser(this.user).subscribe((res) => {
         if (res.status === 201) {
           console.log(res);
-          this.showAlertMessage(this.successMessgae, false);
+          this.showAlertMessage(this.messages.editUsersuccessMessgae, false);
           this.getAllUsers();
         }
       }
         , (err) => {
-          this.showAlertMessage(this.errorMessage, true);
+          this.showAlertMessage(this.messages.errorMessage, true);
         });
     }
     this.user = new User();
@@ -82,8 +83,27 @@ export class AddUserComponent implements OnInit {
     this.isError = isError;
     this.timer = timer(10000);
     this.subscription = this.timer.subscribe(() => {
-        this.showMessage = false;
+      this.showMessage = false;
     });
+  }
+
+  sortUsers(prop: string) {
+    const sortedUsers = this.users.sort((a, b) => a[prop] > b[prop] ? 1 : a[prop] === b[prop] ? 0 : -1);
+    return sortedUsers;
+  }
+
+  deleteUser(user: User) {
+    this.log.info('[UserFormComponent.deleteUser] delete >> ', this.user);
+    this.userManagerService.deleteUser(user).subscribe((res) => {
+      if (res.status === 200) {
+        console.log(res);
+        this.showAlertMessage(this.messages.deleteUsersuccessMessgae, false);
+        this.getAllUsers();
+      }
+    }
+      , (err) => {
+        this.showAlertMessage(this.messages.errorMessage, true);
+      });
   }
 
 }

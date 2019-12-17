@@ -1,6 +1,6 @@
 import { BrowserModule } from '@angular/platform-browser';
 import { NgModule } from '@angular/core';
-import {NgbModule} from '@ng-bootstrap/ng-bootstrap';
+import {NgbModule, NgbActiveModal} from '@ng-bootstrap/ng-bootstrap';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { HttpClientModule } from '@angular/common/http';
 import { RouterModule, Routes } from '@angular/router';
@@ -23,6 +23,7 @@ import { AddProjectComponent } from './add-project/add-project.component';
 import { UserDetailsComponent } from './user-details/user-details.component';
 import { ProjectDetailsComponent } from './project-details/project-details.component';
 import { UserSearchPipe } from './pipe/user-search.pipe';
+import { ConfirmModalComponent } from './confirm-modal/confirm-modal.component';
 
 const pathMappings: Routes = [
   {path: '', component: TaskFormComponent },
@@ -45,7 +46,8 @@ const pathMappings: Routes = [
     AddProjectComponent,
     UserDetailsComponent,
     ProjectDetailsComponent,
-    UserSearchPipe
+    UserSearchPipe,
+    ConfirmModalComponent
   ],
   imports: [
     BrowserModule,
@@ -59,7 +61,8 @@ const pathMappings: Routes = [
     MatSliderModule,
     HttpClientModule
   ],
-  providers: [TaskManagerService, LogService],
-  bootstrap: [AppComponent]
+  providers: [TaskManagerService, LogService, NgbActiveModal],
+  bootstrap: [AppComponent],
+  entryComponents: [ConfirmModalComponent]
 })
 export class AppModule { }

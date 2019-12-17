@@ -12,9 +12,9 @@ export class UserSearchPipe implements PipeTransform {
     if (searchText && Array.isArray(users)) {
       searchText = searchText.toLowerCase();
       return users.filter(item => {
-        return item.firstName.toLowerCase().includes(searchText)
-                || item.lastName.toLowerCase().includes(searchText)
-                || item.employeeId.toLowerCase().includes(searchText);
+        return JSON.stringify(item.firstName).toLowerCase().includes(searchText)
+                || JSON.stringify(item.lastName).toLowerCase().includes(searchText)
+                || JSON.stringify(item.employeeId).toLowerCase().includes(searchText);
       });
     } else {
       return users;
