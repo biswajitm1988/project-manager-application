@@ -1,0 +1,52 @@
+<div class="modal-header">
+    <h4 class="modal-title" id="modal-title">Select Project</h4>
+    <button type="button" class="close" aria-label="Close button" aria-describedby="modal-title" (click)="modal.dismiss('Cross click')">
+        <span aria-hidden="true">&times;</span>
+    </button>
+</div>
+<div class="modal-body">
+
+    <div class="form-row">
+        <div class="col">
+            <input type="text" class="form-control" placeholder="Search" [(ngModel)]="searchText">
+        </div>
+        <div class="col btn-group">
+            <button type="button" (click)="sortUsers('firstName')" class="btn btn-light btn-sm">
+                Project Name <i class="fas fa-angle-double-down"></i>
+            </button>
+            <button type="button" (click)="sortUsers('lastName')" class="btn btn-light btn-sm">
+                Start Date <i class="fas fa-angle-double-down"></i>
+            </button>
+            <button type="button" (click)="sortUsers('employeeId')" class="btn btn-light btn-sm">
+                End Date <i class="fas fa-angle-double-down"></i>
+            </button>
+        </div>
+    </div>
+    <table class="table" style="table-layout:fixed">
+        <thead class="thead-light">
+            <tr>
+                <th scope="col">Project Name</th>
+                <th scope="col">Start Date</th>
+                <th scope="col">End Date</th>
+                <th scope="col">Manager</th>
+                <th scope="col"></th>
+            </tr>
+        </thead>
+        <tbody>
+            <tr *ngFor="let project of projects | projectSearch: searchText">
+                <td>{{project.projectName}}</td>
+                <td>{{project.startDate | date}}</td>
+                <td>{{project.endDate | date}}</td>
+                <td>{{project.user | formatUserName}}</td>
+                <td>
+                    <div class="btn-group">
+                        <button type="button" ngbAutofocus class="btn btn-success" (click)="modal.close(project)">Select</button>
+                    </div>
+                </td>
+            </tr>
+        </tbody>
+    </table>
+</div>
+<div class="modal-footer">
+    <button type="button" class="btn btn-outline-secondary" (click)="modal.dismiss('Cancel')">Cancel</button>
+</div>

@@ -1,4 +1,6 @@
 import { ParentTask } from './parent-task';
+import { Project } from './project';
+import { User } from './user';
 
 export class Task {
     public taskId: number;
@@ -10,4 +12,6 @@ export class Task {
     public isTaskDone: string;
     public priorityLt: number;
     public priorityGt: number;
+    public project: Project;
+    public user: User;
 }

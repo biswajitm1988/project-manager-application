@@ -1,1 +1,44 @@
-<p>project-details works!</p>
+<hr>
+<div class="form-row">
+  <div class="col-sm-6">
+    <div class="card">
+      <div class="card-body">
+        <h5 class="card-title">{{project.projectName}}</h5>
+        <div class="card-text">
+          <div class="row">
+            <div class="col">
+              No. of Tasks:
+            </div>
+            <div class="col">
+              Completed: {{project.isProjectDone}}
+            </div>
+
+          </div>
+          <div class="row">
+            <div class="col">
+              Start Date: {{project.startDate | date}}
+            </div>
+            <div class="col">
+              End Date: {{project.endDate | date}}
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+  <div class="col-sm-4">
+    <div class="card">
+      <div class="card-body">
+        <h5 class="card-title">Priority</h5>
+        <div class="card-text">
+          {{project.priority}}</div>
+      </div>
+    </div>
+  </div>
+  <div class="col-sm-2">
+    <div class="btn-group-vertical button-wrapper">
+      <button type="button" class="btn btn-primary mr-1" (click)="editProject(project)">Update</button>
+      <button type="button" class="btn btn-danger" (click)="suspendProject(project)">Suspend</button>
+    </div>
+  </div>
+</div>

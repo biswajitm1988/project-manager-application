@@ -3,46 +3,92 @@
         {{message}}
     </div>
     <h3>{{isNew?"Add":"Edit"}} Project</h3>
-    <form ngNativeValidate #form>
+    <form (ngSubmit)="f.form.valid && saveProject()" #f="ngForm" novalidate>
         <div class="form-group">
             <label>Project</label>
-            <input type="text" id="projectName" name="projectName" [(ngModel)]="project.projectName" class="form-control" placeholder="Enter Project Name" required />
+            <input type="text" id="projectName" name="projectName" [(ngModel)]="project.projectName"
+                class="form-control" placeholder="Enter Project Name" required />
         </div>
         <div class="form-group">
             <label>Priority</label>
             <div class="d-flex">
                 <span class="font-weight-bold blue-text mr-4">0</span>
                 <div class="w-100">
-                    <mat-slider class="w-100" thumbLabel min="0" max="30" step="1" name="priority" [(ngModel)]="project.priority"></mat-slider>
+                    <mat-slider class="w-100" thumbLabel min="0" max="30" step="1" name="priority"
+                        [(ngModel)]="project.priority"></mat-slider>
                 </div>
                 <span class="font-weight-bold blue-text ml-4">30</span>
             </div>
         </div>
-        <div class="form-group">
-            <div class="col">
-                <input type="checkbox" (click)="toggleDateFields()" /> Set Start Date and End Date
+        <div class="row">
+            <div class="col-sm-4">
+                <br><input type="checkbox" type="checkbox" [checked]="!toggleDates"
+                    (change)="toggleDates = !toggleDates" />
+                Set Start Date and End Date
             </div>
-            <div class="col">
+            <div class="col-sm-8">
                 <mat-form-field class="mr-4">
-                    <input matInput [matDatepicker]="startDate" [min]="minStartDate" name="startDate" [(ngModel)]="project.startDate" placeholder="Start Date" disabled required>
+                    <input matInput [matDatepicker]="startDate" [min]="minStartDate" name="startDate"
+                        [(ngModel)]="project.startDate" placeholder="Start Date" disabled required>
                     <mat-datepicker-toggle matSuffix [for]="startDate"></mat-datepicker-toggle>
                     <mat-datepicker #startDate [startAt]="minStartDate" [disabled]="toggleDates"></mat-datepicker>
                 </mat-form-field>
                 <mat-form-field>
-                    <input matInput [matDatepicker]="endDate" name="endDate" [min]="project.startDate" [(ngModel)]="project.endDate" placeholder="End Date" disabled>
+                    <input matInput [matDatepicker]="endDate" name="endDate" [min]="project.startDate"
+                        [(ngModel)]="project.endDate" placeholder="End Date" disabled>
                     <mat-datepicker-toggle matSuffix [for]="endDate"></mat-datepicker-toggle>
                     <mat-datepicker #endDate [disabled]="toggleDates"></mat-datepicker>
                 </mat-form-field>
             </div>
         </div>
-        <div class="form-group">
-            <input type="text" name="manager" [ngModel]="project.user | formatUserName" (ngModelChange)="project.user.userId=$event" class="form-control" placeholder="Manager .." style="width: 50%;" disabled />
-            <button type="button" class="btn btn-light" (click)="openUserModal()">Search</button>
-
+        <div class="form-row">
+            <div class="col-sm-11">
+                <input type="text" name="manager" [ngModel]="project.user | formatUserName"
+                    (ngModelChange)="project.user.userId=$event" class="form-control" placeholder="Manager .." disabled
+                    required />
+            </div>
+            <div class="col-sm-1">
+                <span class="float-right">
+                    <button type="button" class="btn btn-light" (click)="openUserModal()">Search</button>
+                </span>
+            </div>
         </div>
         <div class="btn-group">
-            <button type="submit" class="btn btn-primary mr-1" (click)="form.checkValidity()? saveProject() : null">{{isNew?"Add":"Update"}}</button>
+            <button type="submit" class="btn btn-primary mr-1">{{isNew?"Add":"Update"}}</button>
             <button type="reset" class="btn btn-secondary">Reset</button>
         </div>
     </form>
+    <hr>
+    <div class="form-row">
+        <div class="col">
+            <input type="text" class="form-control" placeholder="Search" [(ngModel)]="searchText">
+        </div>
+    </div>
+    <div class="form-row">
+        <div class="col-4"></div>
+        <div class="col-8">
+            <span class="float-right">
+                Sort By:
+                <div class="btn-group">
+                    <button type="button" (click)="sortProjects('projectName')"
+                        class="btn  btn-outline-default  btn-light">
+                        Project Name <i class="fas fa-angle-double-down"></i>
+                    </button>
+                    <button type="button" (click)="sortProjects('endDate')" class="btn  btn-outline-default  btn-light">
+                        End Date <i class="fas fa-angle-double-down"></i>
+                    </button>
+                    <button type="button" (click)="sortProjects('priority')"
+                        class="btn  btn-outline-default  btn-light">
+                        Priority <i class="fas fa-angle-double-down"></i>
+                    </button>
+                    <button type="button" (click)="sortProjects('isProjectDone')"
+                        class="btn  btn-outline-default  btn-light">
+                        Completed <i class="fas fa-angle-double-down"></i>
+                    </button>
+                </div>
+            </span>
+        </div>
+    </div>
+    <app-project-details (editProjectDetails)="setEditProject($event)" (suspendProjectDetails)="suspendProject($event)" *ngFor="let project of projects | projectSearch: searchText" [project]="project">
+    </app-project-details>
 </section>

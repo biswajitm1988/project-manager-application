@@ -37,6 +37,6 @@ export class ProjectManagerService {
 
   updateProject(project: Project): Observable<any> {
     this.log.info('[ProjectManagerService.addProject] URL >> ', this.serviceURL + '/project/manager/editProject' + '  Project ', project);
-    return this.http.put<Project>(this.serviceURL + '/project/manager/editProject', project, { observe: 'response' });
+    return this.http.put<Project>(this.serviceURL + '/project/manager/updateProject', project, { observe: 'response' });
   }
 }

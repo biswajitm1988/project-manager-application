@@ -1,0 +1,50 @@
+<div class="modal-header">
+    <h4 class="modal-title" id="modal-title">Select Project Manager</h4>
+    <button type="button" class="close" aria-label="Close button" aria-describedby="modal-title" (click)="modal.dismiss('Cross click')">
+        <span aria-hidden="true">&times;</span>
+    </button>
+</div>
+<div class="modal-body">
+
+    <div class="form-row">
+        <div class="col">
+            <input type="text" class="form-control" placeholder="Search" [(ngModel)]="searchText">
+        </div>
+        <div class="col btn-group">
+            <button type="button" (click)="sortUsers('firstName')" class="btn btn-light btn-sm">
+                First Name <i class="fas fa-angle-double-down"></i>
+            </button>
+            <button type="button" (click)="sortUsers('lastName')" class="btn btn-light btn-sm">
+                Last Name <i class="fas fa-angle-double-down"></i>
+            </button>
+            <button type="button" (click)="sortUsers('employeeId')" class="btn btn-light btn-sm">
+                Employee Id <i class="fas fa-angle-double-down"></i>
+            </button>
+        </div>
+    </div>
+    <table class="table" style="table-layout:fixed">
+        <thead class="thead-light">
+            <tr>
+                <th scope="col">First Name</th>
+                <th scope="col">Last Name</th>
+                <th scope="col">Employee Id</th>
+                <th scope="col"></th>
+            </tr>
+        </thead>
+        <tbody>
+            <tr *ngFor="let user of users | userSearch: searchText">
+                <td>{{user.firstName}}</td>
+                <td>{{user.lastName}}</td>
+                <td>{{user.employeeId}}</td>
+                <td>
+                    <div class="btn-group">
+                        <button type="button" ngbAutofocus class="btn btn-success" (click)="modal.close(user)">Select</button>
+                    </div>
+                </td>
+            </tr>
+        </tbody>
+    </table>
+</div>
+<div class="modal-footer">
+    <button type="button" class="btn btn-outline-secondary" (click)="modal.dismiss('Cancel')">Cancel</button>
+</div>

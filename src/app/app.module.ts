@@ -28,10 +28,13 @@ import { FormatUserNamePipe } from './pipe/format-user-name.pipe';
 import { UserListModalComponent } from './user-list-modal/user-list-modal.component';
 import { UserManagerService } from './service/user-manager.service';
 import { ProjectManagerService } from './service/project-manager.service';
+import { ProjectSearchPipe } from './pipe/project-search.pipe';
+import { ProjectModalComponent } from './project-modal/project-modal.component';
+import { ParentTaskModalComponent } from './parent-task-modal/parent-task-modal.component';
 
 const pathMappings: Routes = [
   {path: '', component: TaskFormComponent },
-  { path: 'addTask/:id', component: TaskFormComponent },
+  { path: 'addTask', component: TaskFormComponent },
   { path: 'viewTasks', component: ViewTaskComponent },
   { path: 'addUser', component: AddUserComponent },
   { path: 'addProject', component: AddProjectComponent }
@@ -53,7 +56,10 @@ const pathMappings: Routes = [
     UserSearchPipe,
     ConfirmModalComponent,
     FormatUserNamePipe,
-    UserListModalComponent
+    UserListModalComponent,
+    ProjectSearchPipe,
+    ProjectModalComponent,
+    ParentTaskModalComponent
   ],
   imports: [
     BrowserModule,
@@ -69,6 +75,6 @@ const pathMappings: Routes = [
   ],
   providers: [TaskManagerService, LogService, NgbActiveModal, UserManagerService, ProjectManagerService],
   bootstrap: [AppComponent],
-  entryComponents: [ConfirmModalComponent, UserListModalComponent]
+  entryComponents: [ConfirmModalComponent, UserListModalComponent, ProjectModalComponent, ParentTaskModalComponent]
 })
 export class AppModule { }

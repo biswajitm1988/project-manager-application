@@ -40,7 +40,7 @@ export class AddUserComponent implements OnInit {
     this.log.info('[UserFormComponent.saveUser] Save >> ', this.user, this.isNew);
     if (this.isNew) {
       this.userManagerService.addUser(this.user).subscribe((res) => {
-        if (res.status === 200) {
+        if (res.status === 201) {
           console.log(res);
           this.showAlertMessage(this.messages.addUsersuccessMessgae, false);
           this.getAllUsers();

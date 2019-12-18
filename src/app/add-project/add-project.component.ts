@@ -8,11 +8,14 @@ import { ProjectManagerService } from '../service/project-manager.service';
 import { Subscription, Observable, timer } from 'rxjs';
 import { UserListModalComponent } from '../user-list-modal/user-list-modal.component';
 import { User } from '../model/user';
+import { ProjectSearchPipe } from '../pipe/project-search.pipe';
+import { isUndefined } from 'util';
 
 @Component({
   selector: 'app-add-project',
   templateUrl: './add-project.component.html',
-  styleUrls: ['./add-project.component.css']
+  styleUrls: ['./add-project.component.css'],
+  providers: [ProjectSearchPipe]
 })
 export class AddProjectComponent implements OnInit {
   project: Project;
@@ -39,8 +42,7 @@ export class AddProjectComponent implements OnInit {
     this.toggleDates = true;
     this.isNew = true;
     this.project = new Project();
-    const newUser = new User();
-    this.project.user = newUser;
+    this.project.user = new User();
     this.getAllProjects();
   }
 
@@ -53,9 +55,18 @@ export class AddProjectComponent implements OnInit {
 
   saveProject() {
     this.log.info('[AddProjectComponent.saveProject] Save >> ', this.project, this.isNew);
+    if (this.toggleDates) {
+      this.project.startDate = null;
+      this.project.endDate = null;
+    } else if ((isUndefined(this.project.endDate) || !this.project.endDate)
+      && (!this.project.startDate && !isUndefined(this.project.startDate))) {
+      const endDate = new Date();
+      endDate.setDate(this.project.startDate.getDate() + 1);
+      this.project.endDate = endDate;
+    }
     if (this.isNew) {
       this.projectManagerService.addProject(this.project).subscribe((res) => {
-        if (res.status === 200) {
+        if (res.status === 201) {
           console.log(res);
           this.showAlertMessage(this.messages.addProjectsuccessMessgae, false);
           this.getAllProjects();
@@ -78,6 +89,19 @@ export class AddProjectComponent implements OnInit {
     }
     this.project = new Project();
     this.isNew = true;
+    this.toggleDates = true;
+  }
+
+  setEditProject(project: Project) {
+    this.isNew = false;
+    if (project.startDate !== null) {
+      this.toggleDates = false;
+      project.startDate = new Date(project.startDate);
+    }
+    if (project.endDate !== null) {
+      project.endDate = new Date(project.endDate);
+    }
+    this.project = project;
   }
 
   getAllProjects() {
@@ -85,10 +109,6 @@ export class AddProjectComponent implements OnInit {
       this.projects = projects;
       this.log.info('[AddProjectComponent.getAllProjects] View On Init. Projects', this.projects);
     });
-  }
-
-  toggleDateFields() {
-    this.toggleDates = false;
   }
 
   public showAlertMessage(message: string, isError: boolean) {
@@ -100,4 +120,27 @@ export class AddProjectComponent implements OnInit {
       this.showMessage = false;
     });
   }
+
+  sortProjects(prop: string) {
+    const sortedProjects = this.projects.sort((a, b) => a[prop] > b[prop] ? 1 : a[prop] === b[prop] ? 0 : -1);
+    return sortedProjects;
+  }
+
+  suspendProject(project: Project) {
+    project.endDate = new Date();
+    project.isProjectDone = 'Y';
+    this.projectManagerService.updateProject(project).subscribe((res) => {
+      if (res.status === 201) {
+        console.log(res);
+        this.showAlertMessage(this.messages.editProjectsuccessMessgae, false);
+        this.getAllProjects();
+      }
+    }
+      , (err) => {
+        this.showAlertMessage(this.messages.errorMessage, true);
+      });
+    this.project = new Project();
+    this.isNew = true;
+  }
+
 }
