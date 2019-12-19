@@ -1,73 +1,35 @@
-<p *ngIf="errMsg!=null" style="color:red">
-    {{errMsg}}
-</p>
 <section *ngIf="errMsg==null" class="container" style="width: 100%">
     <h3>Task List</h3>
-    <form ngNativeValidate>
-        <div class="form-row">
-
-            <div class="col">
-                <div>
-                    <label>Task </label>
-                </div>
-                <div>
-                    <input class="form-control" name="taskSummarySearchKey" [(ngModel)]="searchTask.taskSummary" placeholder="Search By Task">
-                </div>
+    <div class="form-row">
+        <div class="col-sm-6">
+            <div class="col-sm-8">
+                <input type="text" name="taskProjectName" [(ngModel)]="searchTask.project.projectName" class="form-control"
+                    placeholder="Project .." disabled required />
             </div>
-            <div class="col">
-                <div>
-                    <label>Parent Task </label>
-                </div>
-                <div> <input class="form-control" name="parentTaskSearchKey" [(ngModel)]="searchTask.parentTask" placeholder="Search By Parent Task">
-                </div>
+            <div class="col-sm-4">
+                    <button type="button" class="btn btn-light" (click)="openTaskProjectModal()">Search</button>
             </div>
         </div>
-        <hr>
-        <div class="form-row">
-            <div class="col">
-                <div>
-                    <label>Priority From</label>
+        <div class="col-sm-6">
+            <span class="float-right">
+                Sort Tasks By:
+                <div class="btn-group">
+                    <button type="button" (click)="sortTasks('startDate')" class="btn btn-light btn-sm">
+                        Start Date <i class="fas fa-angle-double-down"></i>
+                    </button>
+                    <button type="button" (click)="sortTasks('endDate')" class="btn btn-light btn-sm">
+                        End Date <i class="fas fa-angle-double-down"></i>
+                    </button>
+                    <button type="button" (click)="sortTasks('priority')" class="btn btn-light btn-sm">
+                        Priority <i class="fas fa-angle-double-down"></i>
+                    </button>
+                    <button type="button" (click)="sortTasks('isTaskDone')" class="btn btn-light btn-sm">
+                        Completed <i class="fas fa-angle-double-down"></i>
+                    </button>
                 </div>
-                <div> <input class="form-control" name="priorityGt" [(ngModel)]="searchTask.priorityGt" placeholder="Search By Priority">
-                </div>
-            </div>
-            <div class="col">
-                <div>
-                    <label>Priority To</label>
-                </div>
-                <div> <input class="form-control" name="priorityLt" [(ngModel)]="searchTask.priorityLt" placeholder="Search By Priority">
-                </div>
-            </div>
+            </span>
         </div>
-        <hr>
-        <div class="form-row">
-            <div class="col">
-                <mat-form-field>
-                    <input matInput [matDatepicker]="startDateDP" name="startDateInput" [(ngModel)]="searchTask.startDate" placeholder="Start Date">
-                    <mat-datepicker-toggle matSuffix [for]="startDateDP"></mat-datepicker-toggle>
-                    <mat-datepicker #startDateDP></mat-datepicker>
-                </mat-form-field>
-            </div>
-            <div class="col">
-            </div>
-            <div class="col">
-                <mat-form-field>
-                    <input matInput [matDatepicker]="endDateDP" name="endDateInput" [(ngModel)]="searchTask.endDate" placeholder="End Date">
-                    <mat-datepicker-toggle matSuffix [for]="endDateDP"></mat-datepicker-toggle>
-                    <mat-datepicker #endDateDP></mat-datepicker>
-                </mat-form-field>
-                <button type="reset" class="btn btn-secondary pull-right">Reset</button>
-
-            </div>
-            <div class="col">
-            </div>
-        </div>
-
-        <div class="form-row">
-            <div class="col">
-            </div>
-        </div>
-    </form>
+    </div>
     <hr>
     <table class="table" style="table-layout:fixed">
         <thead class="thead-light">
@@ -81,6 +43,5 @@
             </tr>
         </thead>
     </table>
-    <app-task-detail (taskAdded)="getAllTasks()" (taskUpdated)="getAllTasks()" *ngFor="let task of tasks | filter:'taskSummary':searchTask.taskSummary | filter: 'parentTaskSummary':searchTask.parentTask | filter: 'priorityGt':searchTask.priorityGt | filter: 'priorityLt':searchTask.priorityLt| filter: 'startDateInput':searchTask.startDate | filter: 'endDateInput':searchTask.endDate"
-        [task]="task"></app-task-detail>
+    <app-task-detail *ngFor="let task of tasks" [task]="task"></app-task-detail>
 </section>

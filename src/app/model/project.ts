@@ -1,4 +1,5 @@
 import { User } from './user';
+import { Task } from './task';
 
 export class Project {
     public projectId: number;
@@ -8,4 +9,8 @@ export class Project {
     public endDate: Date;
     public isProjectDone: string;
     public user: User;
+    public tasks: Task[];
+    public numberOfTasks: number;
+    public numberOfCompleted: number;
+
 }

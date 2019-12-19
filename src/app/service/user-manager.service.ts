@@ -50,4 +50,10 @@ export class UserManagerService {
     this.log.info('[UserManagerService.deleteUser] URL >> ', this.serviceURL + '/user/manager/deleteUser/' + user.userId, user);
     return this.http.delete<User>(this.serviceURL + '/user/manager/deleteUser/' + user.userId, { observe: 'response' });
   }
+
+  checkIfUserAssigned(user: User): Observable<any> {
+    this.log.info('[UserManagerService.deleteUser] URL >> ', this.serviceURL + '/user/manager/deleteUser/' + user.userId, user);
+    return this.http.get<boolean>(this.serviceURL + '/user/manager/checkIfUserAssigned/' + user.userId, { observe: 'response' });
+  }
+
 }

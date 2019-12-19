@@ -31,9 +31,9 @@ export class ProjectModalComponent implements OnInit {
     });
   }
 
-  sortUsers(prop: string) {
-    const sortedUsers = this.projects.sort((a, b) => a[prop] > b[prop] ? 1 : a[prop] === b[prop] ? 0 : -1);
-    return sortedUsers;
+  sortProjects(prop: string) {
+    const sortedProjects = this.projects.sort((a, b) => a[prop] > b[prop] ? 1 : a[prop] === b[prop] ? 0 : -1);
+    return sortedProjects;
   }
 
 }

@@ -33,8 +33,9 @@ import { ProjectModalComponent } from './project-modal/project-modal.component';
 import { ParentTaskModalComponent } from './parent-task-modal/parent-task-modal.component';
 
 const pathMappings: Routes = [
-  {path: '', component: TaskFormComponent },
+  {path: '', component: AddUserComponent },
   { path: 'addTask', component: TaskFormComponent },
+  { path: 'updateTask', component: TaskFormComponent },
   { path: 'viewTasks', component: ViewTaskComponent },
   { path: 'addUser', component: AddUserComponent },
   { path: 'addProject', component: AddProjectComponent }

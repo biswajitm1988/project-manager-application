@@ -27,8 +27,8 @@ export class AddUserComponent implements OnInit {
   isError: boolean;
 
   constructor(private log: LogService,
-              private userManagerService: UserManagerService,
-              private router: Router, private route: ActivatedRoute) {
+    private userManagerService: UserManagerService,
+    private router: Router, private route: ActivatedRoute) {
   }
 
   ngOnInit() {
@@ -93,7 +93,7 @@ export class AddUserComponent implements OnInit {
   }
 
   deleteUser(user: User) {
-    this.log.info('[AddUserComponent.deleteUser] delete >> ', this.user);
+    this.log.info('[AddUserComponent.deleteUser] delete >> ', user);
     this.userManagerService.deleteUser(user).subscribe((res) => {
       if (res.status === 200) {
         console.log(res);
@@ -104,6 +104,20 @@ export class AddUserComponent implements OnInit {
       , (err) => {
         this.showAlertMessage(this.messages.errorMessage, true);
       });
+  }
+
+  checkIfUserAssignedAndThenDelete(user: User): boolean {
+    this.userManagerService.checkIfUserAssigned(user).subscribe((res) => {
+      if (res.status === 200 && res.body) {
+        this.showAlertMessage(this.messages.deleteUserAssignedMessgae, true);
+        return;
+      }
+      this.deleteUser(user);
+    }
+      , (err) => {
+        this.showAlertMessage(this.messages.errorMessage, true);
+      });
+    return false;
   }
 
 }

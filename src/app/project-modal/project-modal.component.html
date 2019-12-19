@@ -11,13 +11,13 @@
             <input type="text" class="form-control" placeholder="Search" [(ngModel)]="searchText">
         </div>
         <div class="col btn-group">
-            <button type="button" (click)="sortUsers('firstName')" class="btn btn-light btn-sm">
+            <button type="button" (click)="sortProjects('projectName')" class="btn btn-light btn-sm">
                 Project Name <i class="fas fa-angle-double-down"></i>
             </button>
-            <button type="button" (click)="sortUsers('lastName')" class="btn btn-light btn-sm">
+            <button type="button" (click)="sortProjects('startDate')" class="btn btn-light btn-sm">
                 Start Date <i class="fas fa-angle-double-down"></i>
             </button>
-            <button type="button" (click)="sortUsers('employeeId')" class="btn btn-light btn-sm">
+            <button type="button" (click)="sortProjects('endDate')" class="btn btn-light btn-sm">
                 End Date <i class="fas fa-angle-double-down"></i>
             </button>
         </div>

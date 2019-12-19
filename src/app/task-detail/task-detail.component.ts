@@ -53,7 +53,7 @@ export class TaskDetailComponent implements OnInit {
 
   editTask(task: Task) {
     this.log.info('[ViewTaskComponent.editTask] Sending Data ' + task);
-    this.router.navigate(['/addTask', task.taskId]);
+    this.router.navigateByUrl('/updateTask?taskId=' + task.taskId);
   }
 
   endTask(task: Task) {

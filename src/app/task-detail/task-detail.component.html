@@ -11,7 +11,7 @@
                     </div>
                 </td>
                 <td>
-                    <div class="card">
+                    <div *ngIf="task.parentTask!=null" class="card">
                         <div class="card-body">
                             <p class="card-text">
                                 {{task.parentTask.parentTaskSummary}}

@@ -5,6 +5,9 @@ import { Observable } from 'rxjs';
 import { environment } from 'src/environments/environment';
 import { LogService } from './log.service';
 import { map } from 'rxjs/operators';
+import { ParentTask } from '../model/parent-task';
+import * as moment from 'moment';
+import { Project } from '../model/project';
 
 @Injectable({
   providedIn: 'root'
@@ -14,6 +17,7 @@ export class TaskManagerService {
 
   task: Task;
   tasks: Task[];
+  today: Date;
   serviceURL: string = environment.TASK_MANAGER_SERVER_URL;
 
   constructor(private log: LogService, private http: HttpClient) {
@@ -21,6 +25,7 @@ export class TaskManagerService {
       this.tasks = tasks;
       this.log.info('[TaskManagerService.constructor] Data >> ', this.tasks);
     });
+    this.today = new Date();
   }
 
   getAllTasks(): Task[] {
@@ -28,48 +33,78 @@ export class TaskManagerService {
     return this.tasks;
   }
 
-  addTask(task: Task): Observable<Task> {
+  addTask(task: Task): Observable<any> {
     this.log.info('[TaskManagerService.addTask] URL >> ', this.serviceURL + '/task/manager/addTask' + '  Task ', task);
-    return this.http.post(this.serviceURL + '/task/manager/addTask', task)
+    return this.http.post(this.serviceURL + '/task/manager/addTask', task, { observe: 'response' })
       .pipe(map(result => {
-        const tempTask =  result as Task;
-        tempTask.startDate = new Date(tempTask.startDate);
+        const tempTask =  result.body as Task;
+        tempTask.startDate  = tempTask.startDate != null ? new Date(tempTask.startDate) : tempTask.startDate;
         tempTask.endDate = tempTask.endDate != null ? new Date(tempTask.endDate) : tempTask.endDate;
-        return tempTask;
+        return result;
       }));
   }
 
-  editTask(task: Task): Observable<Task> {
+  editTask(task: Task): Observable<any> {
     this.log.info('[TaskManagerService.editTask] URL >> ', this.serviceURL + '/task/manager/updateTask' + '  Task ', task);
-    return this.http.put(this.serviceURL + '/task/manager/updateTask', task).pipe(map(result => {
-      const tempTask =  result as Task;
-      tempTask.startDate = new Date(tempTask.startDate);
+    return this.http.put(this.serviceURL + '/task/manager/updateTask', task, { observe: 'response' }).pipe(map(result => {
+      const tempTask =  result.body as Task;
+      tempTask.startDate = tempTask.startDate != null ? new Date(tempTask.startDate) : tempTask.startDate;
       tempTask.endDate = tempTask.endDate != null ? new Date(tempTask.endDate) : tempTask.endDate;
-      return tempTask;
+      return result;
     }));
   }
 
-  getAllTasksFromService(): Observable<Task[]> {
+  getAllTasksFromService(): Observable<any> {
     this.log.info('[TaskManagerService.getDataFromService] URL >> ', this.serviceURL + '/task/manager/getAllTasks');
-    return this.http.get<Task[]>(this.serviceURL + '/task/manager/getAllTasks')
+    return this.http.get<Task[]>(this.serviceURL + '/task/manager/getAllTasks', { observe: 'response' })
       .pipe(map(result => {
-        const tasks =  result as Task[];
+        const tasks =  result.body as Task[];
         tasks.forEach(task => {
-          task.startDate = new Date(task.startDate);
+          task.startDate  = task.startDate != null ? new Date(task.startDate) : task.startDate;
           task.endDate = task.endDate != null ? new Date(task.endDate) : task.endDate;
+          if (task.isTaskDone !== 'Y' && moment(task.endDate).isBefore(this.today, 'day')) {
+            task.isTaskDone = 'Y';
+          }
         });
-        return tasks;
+        return result;
       }));
   }
 
-  getTaskByIdFromService(id: string): Observable<Task> {
+  getTaskByIdFromService(id: string): Observable<any> {
     this.log.info('[TaskManagerService.getDataFromService] URL >> ', this.serviceURL + '/task/manager/getTaskById/' + id);
-    return this.http.get<Task>(this.serviceURL + '/task/manager/getTaskById/' + id)
+    return this.http.get<Task>(this.serviceURL + '/task/manager/getTaskById/' + id, { observe: 'response' })
       .pipe(map(result => {
-        const task =  result as Task;
-        task.startDate = new Date(task.startDate);
+        const task =  result.body as Task;
+        task.startDate = task.startDate != null ? new Date(task.startDate) : task.startDate;
         task.endDate = task.endDate != null ? new Date(task.endDate) : task.endDate;
-        return task;
+        return result;
       }));
+  }
+
+  getAllParentTasks(): Observable<any> {
+    this.log.info('[TaskManagerService.getAllParentTasks] URL >> ', this.serviceURL + '/task/manager/getAllParentTasks');
+    return this.http.get<ParentTask[]>(this.serviceURL + '/task/manager/getAllParentTasks', { observe: 'response' });
+  }
+
+  addParentTask(parentTask: ParentTask): Observable<any> {
+    this.log.info('[TaskManagerService.addParentTask] URL >> ', this.serviceURL + '/task/manager/addParentTask' + 'ParentTask', parentTask);
+    return this.http.post(this.serviceURL + '/task/manager/addParentTask', parentTask, { observe: 'response' });
+  }
+
+  searchTasksByProject(project: Project): Observable<any> {
+    this.log.info('[TaskManagerService.getDataFromService] URL >> ',
+                    this.serviceURL + '/task/manager/getTasksByProjectId/' + project.projectId);
+    return this.http.get<Task[]>(this.serviceURL + '/task/manager/getTasksByProjectId/' + project.projectId, { observe: 'response' })
+    .pipe(map(result => {
+      const tasks =  result.body as Task[];
+      tasks.forEach(task => {
+        task.startDate  = task.startDate != null ? new Date(task.startDate) : task.startDate;
+        task.endDate = task.endDate != null ? new Date(task.endDate) : task.endDate;
+        if (task.isTaskDone !== 'Y' && moment(task.endDate).isBefore(this.today, 'day')) {
+          task.isTaskDone = 'Y';
+        }
+      });
+      return result;
+    }));
   }
 }

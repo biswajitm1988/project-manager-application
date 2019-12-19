@@ -1,18 +1,18 @@
-<p *ngIf="errMsg!=null" style="color:red">
-    {{errMsg}}
-</p>
 <section *ngIf="errMsg==null" class="container" style="width: 100%">
+    <div [hidden]="!showMessage" [ngClass]="isError ? 'alert alert-danger': 'alert alert-success'" role="alert">
+        {{message}}
+    </div>
     <h3>{{isNew?"Add":"Edit"}} Task</h3>
     <form ngNativeValidate #form>
 
         <div class="form-row">
             <div class="col-sm-11">
-                <input type="text" name="manager" [(ngModel)]="task.project.projectName" class="form-control" placeholder="Project .."
+                <input type="text" name="projectName" [(ngModel)]="task.project.projectName" class="form-control" placeholder="Project .."
                     disabled required />
             </div>
             <div class="col-sm-1">
                 <span class="float-right">
-                    <button type="button" class="btn btn-light" (click)="openProjectModal()">Search</button>
+                    <button type="button" class="btn btn-light" (click)="openProjectModal()" [disabled]="toggleParentTask">Search</button>
                 </span>
             </div>
         </div>
@@ -32,12 +32,12 @@
         <div class="form-group">
             <label>Priority</label>
             <div class="d-flex">
-                <span class="font-weight-bold blue-text mr-4">0</span>
+                <span class="font-weight-bold mr-4">0</span>
                 <div class="w-100">
                     <mat-slider class="w-100" thumbLabel min="0" max="30" step="1" name="priority"
                         [(ngModel)]="task.priority" [disabled]="toggleParentTask"></mat-slider>
                 </div>
-                <span class="font-weight-bold blue-text ml-4">30</span>
+                <span class="font-weight-bold ml-4">30</span>
             </div>
         </div>
         <div class="form-row">
@@ -67,13 +67,13 @@
         </div>
         <div class="form-row">
             <div class="col-sm-11">
-                <input type="text" name="manager" [ngModel]="task.user | formatUserName"
-                    (ngModelChange)="project.user.userId=$event" class="form-control" placeholder="Task Owner .." disabled
+                <input type="text" name="taskOwner" [ngModel]="task.user | formatUserName"
+                    (ngModelChange)="task.user.userId=$event" class="form-control" placeholder="Task Owner .." disabled
                     required />
             </div>
             <div class="col-sm-1">
                 <span class="float-right">
-                    <button type="button" class="btn btn-light" (click)="openUserModal()">Search</button>
+                    <button type="button" class="btn btn-light" (click)="openUserModal()" [disabled]="toggleParentTask">Search</button>
                 </span>
             </div>
         </div>
